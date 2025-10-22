@@ -7,4 +7,4 @@ def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
     return (minimum,maximum)
 f=[1,2,3,4,5,6]
 s=min_max(f)
-pri
+print(s)
