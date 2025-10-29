@@ -9,6 +9,6 @@ def row_sums(mat: list[list[float | int]]) -> list[float]:
 s= [
     [1,2,3],
     [4,5,6]
-    ]
+]
 f=row_sums(s)
 print(f)
