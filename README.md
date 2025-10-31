@@ -263,6 +263,14 @@ print(count_freq(["a","b","a","c","b","a"]))
 ```
 В данном коде создаю цикл и пробегаюсь по уникальным элементам массива. Цикл берет одно значение из сетового массива и ищет его в начальном массиве. С помощью функции count записывает сколько раз встречался тот символ, а позже добавляет этот элемент и его количество в новый массив через двоеточие. Чтобы отсортировать по алфавиту использую функцию sorted.
 ![count_freq](images/lab03/count_freq.png)
+## Задание А.4
+```python
+def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
+    sorted_items = sorted(freq.items(), key=lambda x: (-x[1], x[0]))
+    return sorted_items[:n]
+print(count_freq(["bb","aa","bb","aa","cc"]))
+```
+В задании 
 ## Задание B.1
 ```python
 def text_stats(tokens: list[str]) -> dict[str, int]:
