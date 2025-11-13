@@ -12,3 +12,4 @@ def format_record(rec: tuple[str, str, float]) -> str:
 s=("Петров Пётр", "IKBO-12", 5.0)
 f=format_record(s)
 print(f)
+print(stroka)

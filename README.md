@@ -300,3 +300,153 @@ print(text_stats("Привет, ура, ура Привет Привет !!!"))
 Строчка - r=[i.split(':') for i in k] , цикл который пробегается по i элменту, если он находит ":" то происходит сплит, Элементы записываются в новый массив.
 Далее пробегаюсь по элементам массивов в новом массиве. В return пишу количество слов, в моем случае оно равно длине массива g, в который добавлены все слова начального массива.
 ![text_stats](images/lab03/text_stats.png)
+
+### Лабораторная работа №4 ###
+
+## Задание A. io_txt_csv.py ##
+```python
+import csv
+from pathlib import Path
+from typing import Iterable, Sequence
+
+def read_text(path: str | Path, encoding: str = "utf-8") -> str:
+    """
+    Читает текстовый файл и возвращает его содержимое как строку.
+    
+    Args:
+        path: Путь к файлу
+        encoding: Кодировка файла (по умолчанию UTF-8)
+        
+    Returns:
+        Содержимое файла как строка
+        
+    Raises:
+        FileNotFoundError: Если файл не существует
+        UnicodeDecodeError: Если возникли проблемы с декодированием
+    """
+    p = Path(path)
+    return p.read_text(encoding=encoding)
+
+
+def write_csv(rows: Iterable[Sequence], path: str | Path, 
+              header: tuple[str, ...] | None = None) -> None:
+    """
+    Записывает данные в CSV файл.
+    
+    Args:
+        rows: Итерируемый объект с данными для записи
+        path: Путь для сохранения CSV файла
+        header: Заголовок столбцов (опционально)
+        
+    Raises:
+        ValueError: Если строки имеют разную длину
+    """
+    p = Path(path)
+    rows_list = list(rows)
+
+    # Проверяем одинаковую длину всех строк
+    if rows_list:
+        first_len = len(rows_list[0])
+        for i, row in enumerate(rows_list):
+            if len(row) != first_len:
+                raise ValueError 
+    # Создаем родительские директории если нужно
+    p.parent.mkdir(parents=True, exist_ok=True)
+    
+    with p.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        if header is not None:
+            writer.writerow(header)
+        writer.writerows(rows_list)
+
+
+def ensure_parent_dir(path: str | Path) -> None:
+    """
+    Создает родительские директории для указанного пути если они не существуют.
+    
+    Args:
+        path: Путь к файлу
+    """
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+```
+
+## Задание B. text_report.py ##
+```python
+import argparse
+import sys
+from pathlib import Path
+
+# Добавляем корневую папку в Python path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
+
+# Импортируем модули
+from src.lib.text import normalize, tokenize, count_freq, top_n, sorted_word_counts
+from src.lab04.io_txt_csv import read_text, write_csv
+
+
+def frequencies_from_text(text: str) -> dict[str, int]:
+    """Вычисляет частоты слов из текста."""
+    tokens = tokenize(normalize(text))
+    return count_freq(tokens)
+
+
+def generate_report(input_file: str, output_file: str) -> None:
+    """Генерирует отчет по словам из входного файла."""
+    # Читаем текст из файла
+    text = read_text(input_file)
+    
+    # Вычисляем частоты
+    freq = frequencies_from_text(text)
+    
+    # Сортируем слова по частоте
+    sorted_words = sorted_word_counts(freq)
+    
+    # Записываем в CSV
+    write_csv(sorted_words, output_file, header=("word", "count"))
+    
+    # Выводим статистику в консоль
+    total_words = sum(freq.values())
+    unique_words = len(freq)
+    top_5 = top_n(freq, 5)
+    
+    print(f"Всего слов: {total_words}")
+    print(f"Уникальных слов: {unique_words}")
+    print("Топ-5 слов:")
+    for word, count in top_5:
+        print(f"  {word}: {count}")
+    
+    print(f"\nОтчет сохранен в: {output_file}")
+
+
+def main():
+    """Основная функция скрипта."""
+    parser = argparse.ArgumentParser(description='Генерация отчета по статистике слов')
+    parser.add_argument('--in', dest='input_file', default='data/lab04/input.txt',
+                       help='Входной текстовый файл')
+    parser.add_argument('--out', dest='output_file', default='data/lab04/report.csv',
+                       help='Выходной CSV файл')
+
+    args = parser.parse_args()
+    
+    # Проверяем существование входного файла
+    input_path = Path(args.input_file)
+    if not input_path.exists():
+        print(f"Ошибка: Входной файл '{args.input_file}' не найден")
+        print(f"Полный путь: {input_path.absolute()}")
+        return
+ 
+    generate_report(args.input_file, args.output_file)
+
+if __name__ == "__main__":
+    main()
+```
+Тест кейс № 1: Рандомный текст:
+![text](images/lab04/ffdffe/text.png)
+![word](images/lab04/ffdffe/word.png)
+![top 5](images/lab04/ffdffe/top%205.png)
+Тест кейс № 2: Исходное предложение:
+![text1](images/lab04/ffdffe/text1.png)
+![word1](images/lab04/ffdffe/word1.png)
+![top 5 1](images/lab04/ffdffe/top%205%201.png)

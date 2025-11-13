@@ -1,5 +1,3 @@
-
-Лабораторная работа номер 3 - функции:
 # normilaze
 def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
     for i in '\n\t\r':
