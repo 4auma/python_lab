@@ -442,11 +442,11 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-Тест кейс № 1: Рандомный текст:
+ # Тест кейс № 1: Рандомный текст: #
 ![text](images/lab04/ffdffe/text.png)
 ![word](images/lab04/ffdffe/word.png)
 ![top 5](images/lab04/ffdffe/top%205.png)
-Тест кейс № 2: Исходное предложение:
+ # Тест кейс № 2: Исходное предложение: #
 ![text1](images/lab04/ffdffe/text1.png)
 ![word1](images/lab04/ffdffe/word1.png)
 ![top 5 1](images/lab04/ffdffe/top%205%201.png)
