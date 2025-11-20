@@ -497,7 +497,7 @@ json_to_csv("src/data/samples/people.json", "src/data/out/people_from_json.csv")
 ![people_csv](images/lab05/people_csv.png)
 ![people_json(csv)](images/lab05/people_json(csv).png)
 ![people_json](images/lab05/people_json.png)
-![people_csv(json)](images/lab05/people_csv(json).png.png)
+![people_csv(json)](images/lab05/people_csv(json).png)
 ## Задание B (CSV <---> XLSX) ##
 ```python
 import csv
