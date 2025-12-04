@@ -7,7 +7,7 @@ from pathlib import Path
 
 def json_to_csv(json_path: str, csv_path: str) -> None:
 
-    json_file = Path("src/data/lab_05/samples/people.json")
+    json_file = Path(json_path)
 
     if not json_file.exists():
         raise FileNotFoundError("Файл не найден")
@@ -24,7 +24,7 @@ def json_to_csv(json_path: str, csv_path: str) -> None:
 
 
 def csv_to_json(csv_path: str, json_path: str) -> None:
-    csv_file = Path("src/data/lab_05/samples/people.csv")
+    csv_file = Path(csv_path)
 
     if not csv_file.exists():
         raise FileNotFoundError("Файл не найден")
