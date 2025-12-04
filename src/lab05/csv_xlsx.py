@@ -1,3 +1,4 @@
+"""
 import csv
 
 from openpyxl import Workbook
@@ -25,5 +26,25 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
         ws.column_dimensions[column_letter].width = max_length + 2
     
     wb.save(xlsx_path)
-          
+"""
+"""         
 csv_to_xlsx('src\data\samples\people.csv','src\data\out\people.xlsx')
+"""
+import csv
+from openpyxl import Workbook
+import os
+
+def csv_to_xlsx(input_file, output_file):
+    """Конвертирует CSV файл в XLSX"""
+    if not os.path.exists(input_file):
+        raise FileNotFoundError(f"Файл {input_file} не найден")
+    
+    wb = Workbook()
+    ws = wb.active
+    
+    with open(input_file, 'r', encoding='utf-8') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            ws.append(row)
+    
+    wb.save(output_file)
