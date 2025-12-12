@@ -26,47 +26,55 @@ def generate_report(input_file: str, output_file: str) -> None:
     """Генерирует отчет по словам из входного файла."""
     # Читаем текст из файла
     text = read_text(input_file)
-    
+
     # Вычисляем частоты
     freq = frequencies_from_text(text)
-    
+
     # Сортируем слова по частоте
     sorted_words = sorted_word_counts(freq)
-    
+
     # Записываем в CSV
     write_csv(sorted_words, output_file, header=("word", "count"))
-    
+
     # Выводим статистику в консоль
     total_words = sum(freq.values())
     unique_words = len(freq)
     top_5 = top_n(freq, 5)
-    
+
     print(f"Всего слов: {total_words}")
     print(f"Уникальных слов: {unique_words}")
     print("Топ-5 слов:")
     for word, count in top_5:
         print(f"  {word}: {count}")
-    
+
     print(f"\nОтчет сохранен в: {output_file}")
 
 
 def main():
     """Основная функция скрипта."""
-    parser = argparse.ArgumentParser(description='Генерация отчета по статистике слов')
-    parser.add_argument('--in', dest='input_file', default='data/lab04/input.txt',
-                       help='Входной текстовый файл')
-    parser.add_argument('--out', dest='output_file', default='data/lab04/report.csv',
-                       help='Выходной CSV файл')
-    
+    parser = argparse.ArgumentParser(description="Генерация отчета по статистике слов")
+    parser.add_argument(
+        "--in",
+        dest="input_file",
+        default="data/lab04/input.txt",
+        help="Входной текстовый файл",
+    )
+    parser.add_argument(
+        "--out",
+        dest="output_file",
+        default="data/lab04/report.csv",
+        help="Выходной CSV файл",
+    )
+
     args = parser.parse_args()
-    
+
     # Проверяем существование входного файла
     input_path = Path(args.input_file)
     if not input_path.exists():
         print(f"Ошибка: Входной файл '{args.input_file}' не найден")
         print(f"Полный путь: {input_path.absolute()}")
         return
-    
+
     generate_report(args.input_file, args.output_file)
 
 

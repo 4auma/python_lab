@@ -7,18 +7,18 @@ import re
 
 def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
     """Нормализует текст."""
-    for char in '\n\t\r':
+    for char in "\n\t\r":
         text = text.replace(char, " ")
-    
+
     if yo2e:
         text = text.replace("ё", "е").replace("Ё", "Е")
-    
+
     if casefold:
         text = text.casefold()
-    
+
     while "  " in text:
         text = text.replace("  ", " ")
-    
+
     return text.strip()
 
 

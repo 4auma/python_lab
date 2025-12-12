@@ -1,6 +1,6 @@
 N = input()
 con = 1
-name = ''
+name = ""
 for i in range(0, len(N)):
     if N[i].isupper():
         name += N[i]

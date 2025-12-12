@@ -12,4 +12,6 @@ def transpose(mat):
             g.append(p[i])
         r.append(g)
     return r
-print(transpose([[1,2],[3,4]]))
+
+
+print(transpose([[1, 2], [3, 4]]))
